@@ -1,0 +1,29 @@
+<?php
+    header("content-type:text/html;charset=utf-8");
+	if($_POST['Submit']=="提交" && $_POST['pdo']!=""){
+	$dbms='mysql';
+	$host = "127.0.0.1";
+	$userName = "root" ;
+	$password = "yyf123";
+	$dbName = "ml";
+	$dsn="$dbms:host=$host;dbname=$dbName";
+	$pdo = new PDO($dsn,$userName,$password);
+	$query = "insert into tb_pdo(pdo_type,db_name,dates)values('$_POST[pdo]','$_POST[dbmame]','$_POST[dates]')";
+	$result = $pdo->prepare($query);
+	$result->execute();
+	$code = $result->errorCode();
+	//echo $code.'</br>';
+
+	if ($code == '00000'){
+	    echo "添加数据成功！"." ".$code;
+	}else{
+	    echo '数据库错误：<br/>';
+		echo 'SQL Query:'.$query;
+		echo '<pre>';
+		var_dump($result->errorInfo());
+		echo '</pre>';
+	}
+
+	}
+
+?>
